@@ -1,6 +1,12 @@
 import pandas as pd
 import random
-sample_frac = 0.01
+from utils.Data_Preprocess.pre_processing import remove_missing_values
+from utils.Data_Preprocess.pre_processing import remove_lat_long_outlier
+from utils.Data_Preprocess.pre_processing import remove_fare_amount_outlier
+from utils.Data_Preprocess.pre_processing import remove_passenger_count_outlier
+
+
+sample_frac = 0.02
 
 def skip_row(row_idx):
     if row_idx == 0:
@@ -19,5 +25,41 @@ def get_data():
 
     train_data = pd.read_csv(r"C:\Users\Hemang\Desktop\DataSet\NYC_regression\new-york-city-taxi-fare-prediction\train.csv"
                             ,usecols=selected_cols,dtype=dtypes,parse_dates=['pickup_datetime'], skiprows=skip_row)
-    test_data = pd.read_csv(r"C:\Users\Hemang\Desktop\DataSet\NYC_regression\new-york-city-taxi-fare-prediction\test.csv")
+    test_data = pd.read_csv(r"C:\Users\Hemang\Desktop\DataSet\NYC_regression\new-york-city-taxi-fare-prediction\test.csv"
+                            , dtype=dtypes, parse_dates=['pickup_datetime'])
     return (train_data, test_data)
+
+def get_data_overview(train_data, test_data):
+    print("=="*30)
+    print(f"Shape of training data {train_data.shape[0]}")
+    print("=="*30)
+    print(f"Shape of test data {test_data.shape[0]}")
+    print("=="*30)
+    print(f"train_data column names are: {train_data.columns}")
+    print("=="*30)
+    print(f"test_data column names are: {test_data.columns}")
+    train_data_null = train_data.isnull().sum()
+    test_data_null = test_data.isnull().sum()
+    print("=="*30)
+    print(f"null data for training set")
+    print(train_data_null)
+    print("=="*30)
+    print(f"null data for testing set")
+    print(test_data_null)
+
+def get_eda_results(train_data, test_data):
+    train_data.info()
+    print("=="*30)
+    test_data.info()
+    print("=="*30)
+    train_data.describe()
+    print("=="*30)
+    test_data.describe()
+    print("=="*30)
+
+def data_preprocess(train_data):
+    train_remove_nan = remove_missing_values(train_data)
+    train_remove_lat_long = remove_lat_long_outlier(train_remove_nan)
+    train_remove_fare = remove_fare_amount_outlier(train_remove_lat_long)
+    train_remove_passenger_count = remove_passenger_count_outlier(train_remove_fare)
+    return train_remove_passenger_count
