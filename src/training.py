@@ -6,17 +6,20 @@ from utils.data_mgmt import get_data_overview
 from utils.data_mgmt import get_eda_results
 from utils.data_mgmt import data_preprocess
 from utils.data_mgmt import data_vectorization_process
+from models.hardcode_model import mean_regression_model
 
 
 def training(config_path):
     config = read_config(config_path)
     testing_datasize = config['params']['testing_datasize'] #TO DO from config.yaml
     start_time = time.time()
-    train_data, test_data = get_data() #TO DO send sample fraction from config.yaml
+    train_data, test_data, sample_submission_data = get_data() #TO DO send sample fraction from config.yaml
     get_data_overview(train_data, test_data)
     get_eda_results(train_data, test_data)
     train_data_remove_outliers = data_preprocess(train_data)
     X_train, X_cv, y_train, y_cv = data_vectorization_process(train_data_remove_outliers)
+    mean_regression_model(X_train, X_cv, y_train, y_cv, test_data, sample_submission_data)
+
     print("**"*30)
     print(f"X_train : {X_train.shape[0]}, X_cv : {X_cv.shape[0]}")
     print(f"y_train : {y_train.shape}, y_cv : {y_cv.shape}")
