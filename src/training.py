@@ -16,9 +16,9 @@ def training(config_path):
     train_data, test_data, sample_submission_data = get_data() #TO DO send sample fraction from config.yaml
     get_data_overview(train_data, test_data)
     get_eda_results(train_data, test_data)
-    train_data_remove_outliers = data_preprocess(train_data)
-    X_train, X_cv, y_train, y_cv = data_vectorization_process(train_data_remove_outliers)
-    mean_regression_model(X_train, X_cv, y_train, y_cv, test_data, sample_submission_data)
+    train_data_added_feature, test_data_added_feature = data_preprocess(train_data, test_data)
+    X_train, X_cv, y_train, y_cv = data_vectorization_process(train_data_added_feature)
+    mean_regression_model(X_train, X_cv, y_train, y_cv, test_data_added_feature, sample_submission_data)
 
     print("**"*30)
     print(f"X_train : {X_train.shape[0]}, X_cv : {X_cv.shape[0]}")

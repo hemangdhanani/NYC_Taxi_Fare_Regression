@@ -4,6 +4,9 @@ from utils.Data_Preprocess.pre_processing import remove_missing_values
 from utils.Data_Preprocess.pre_processing import remove_lat_long_outlier
 from utils.Data_Preprocess.pre_processing import remove_fare_amount_outlier
 from utils.Data_Preprocess.pre_processing import remove_passenger_count_outlier
+from utils.Data_Preprocess.pre_processing import add_date_parts
+from utils.Data_Preprocess.pre_processing import add_trip_distance
+from utils.Data_Preprocess.pre_processing import calculate_landmark_distance
 from utils.Data_vectorization.data_vectorization import train_cv_split_data
 
 sample_frac = 0.01
@@ -61,12 +64,15 @@ def get_eda_results(train_data, test_data):
     test_data.describe()
     print("=="*30)
 
-def data_preprocess(train_data):
+def data_preprocess(train_data, test_data):
     train_remove_nan = remove_missing_values(train_data)
     train_remove_lat_long = remove_lat_long_outlier(train_remove_nan)
     train_remove_fare = remove_fare_amount_outlier(train_remove_lat_long)
     train_remove_passenger_count = remove_passenger_count_outlier(train_remove_fare)
-    return train_remove_passenger_count
+    train_add_date_parts , test_add_date_parts= add_date_parts(train_remove_passenger_count, test_data, 'pickup_datetime')
+    train_added_trip_distance , test_added_trip_distance= add_trip_distance(train_add_date_parts, test_add_date_parts)
+    train_calculate_distance , test_calculate_distance= calculate_landmark_distance(train_added_trip_distance, test_added_trip_distance)
+    return train_calculate_distance, test_calculate_distance
 
 def data_vectorization_process(train_data_clean):
     X_train, X_cv, y_train, y_cv = train_cv_split_data(train_data_clean)    
