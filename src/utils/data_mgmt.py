@@ -4,6 +4,7 @@ from utils.Data_Preprocess.pre_processing import remove_missing_values
 from utils.Data_Preprocess.pre_processing import remove_lat_long_outlier
 from utils.Data_Preprocess.pre_processing import remove_fare_amount_outlier
 from utils.Data_Preprocess.pre_processing import remove_passenger_count_outlier
+from utils.Data_vectorization.data_vectorization import train_cv_split_data
 
 
 sample_frac = 0.02
@@ -63,3 +64,8 @@ def data_preprocess(train_data):
     train_remove_fare = remove_fare_amount_outlier(train_remove_lat_long)
     train_remove_passenger_count = remove_passenger_count_outlier(train_remove_fare)
     return train_remove_passenger_count
+
+def data_vectorization_process(train_data_clean):
+    X_train, X_cv, y_train, y_cv = train_cv_split_data(train_data_clean)
+    return X_train, X_cv, y_train, y_cv
+

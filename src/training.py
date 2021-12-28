@@ -5,6 +5,7 @@ from utils.data_mgmt import get_data
 from utils.data_mgmt import get_data_overview
 from utils.data_mgmt import get_eda_results
 from utils.data_mgmt import data_preprocess
+from utils.data_mgmt import data_vectorization_process
 
 
 def training(config_path):
@@ -15,7 +16,13 @@ def training(config_path):
     get_data_overview(train_data, test_data)
     get_eda_results(train_data, test_data)
     train_data_remove_outliers = data_preprocess(train_data)
+    X_train, X_cv, y_train, y_cv = data_vectorization_process(train_data_remove_outliers)
+    print("**"*30)
+    print(f"X_train : {X_train.shape[0]}, X_cv : {X_cv.shape[0]}")
+    print(f"y_train : {y_train.shape}, y_cv : {y_cv.shape}")
+    print("**"*30)
     print("--- %s seconds ---" % (time.time() - start_time))
+    print(f"Toatl minutes {(time.time() - start_time)/60}")
 
 if __name__ == '__main__':
     args = argparse.ArgumentParser()
