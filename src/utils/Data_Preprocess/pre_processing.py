@@ -91,7 +91,13 @@ def calculate_landmark_distance(train_df, test_df):
     for a_df in [train_df, test_df]:
         for name, lonlat in [('jfk', jfk_lonlat), ('lga', lga_lonlat), ('ewr', ewr_lonlat), ('met', met_lonlat), ('wtc', wtc_lonlat)]:
             add_landmark_dropoff_distance(a_df, name, lonlat)
-    return train_df, test_df        
+    return train_df, test_df
+
+def remove_extra_columns(train_data, test_data):
+    train_df = train_data.drop(['pickup_datetime'], axis = 1)
+    test_df = test_data.drop(['pickup_datetime'], axis = 1)
+    return train_df, test_df
+
 
 
 

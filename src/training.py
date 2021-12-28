@@ -7,6 +7,7 @@ from utils.data_mgmt import get_eda_results
 from utils.data_mgmt import data_preprocess
 from utils.data_mgmt import data_vectorization_process
 from models.hardcode_model import mean_regression_model
+from models.linear_regression_model import simple_linear_regression_model
 
 
 def training(config_path):
@@ -18,12 +19,10 @@ def training(config_path):
     get_eda_results(train_data, test_data)
     train_data_added_feature, test_data_added_feature = data_preprocess(train_data, test_data)
     X_train, X_cv, y_train, y_cv = data_vectorization_process(train_data_added_feature)
-    mean_regression_model(X_train, X_cv, y_train, y_cv, test_data_added_feature, sample_submission_data)
 
-    print("**"*30)
-    print(f"X_train : {X_train.shape[0]}, X_cv : {X_cv.shape[0]}")
-    print(f"y_train : {y_train.shape}, y_cv : {y_cv.shape}")
-    print("**"*30)
+    mean_regression_model(X_train, X_cv, y_train, y_cv, test_data_added_feature, sample_submission_data)
+    simple_linear_regression_model(X_train, X_cv, y_train, y_cv, test_data_added_feature, sample_submission_data)
+    
     print("--- %s seconds ---" % (time.time() - start_time))
     print(f"Toatl minutes {(time.time() - start_time)/60}")
 

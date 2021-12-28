@@ -12,9 +12,11 @@ from sklearn.preprocessing import Normalizer
 from scipy.sparse import hstack
 
 def train_cv_split_data(data):
-    input_cols = ['pickup_longitude', 'pickup_latitude', 'dropoff_longitude', 'dropoff_latitude', 'passenger_count']
-    target_col = 'fare_amount'
-    X = data[input_cols]
-    y = data[target_col]
+    # input_cols = ['pickup_longitude', 'pickup_latitude', 'dropoff_longitude', 'dropoff_latitude', 'passenger_count']
+    # target_col = 'fare_amount'
+    # X = data[input_cols]
+    # y = data[target_col]
+    y = data['fare_amount'].values
+    X = data.drop(['fare_amount'], axis=1)
     X_train, X_cv, y_train, y_cv = train_test_split(X, y, test_size=0.20, random_state=42)
     return  X_train, X_cv, y_train, y_cv
