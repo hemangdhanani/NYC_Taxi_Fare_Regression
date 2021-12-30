@@ -10,6 +10,8 @@ from models.hardcode_model import mean_regression_model
 from models.linear_regression_model import simple_linear_regression_model
 from models.ridge_linear_model import ridge_liner_regressor_model
 from models.random_forest_model import random_forest_regressor_model
+from models.svm_regression import svm_regression_model
+from models.xgb_regressor import XGB_regressor_model
 import warnings
 warnings.filterwarnings("ignore", category=FutureWarning)
 
@@ -28,6 +30,9 @@ def training(config_path):
     simple_linear_regression_model(X_train, X_cv, y_train, y_cv, test_data_added_feature, sample_submission_data)
     ridge_liner_regressor_model(X_train, X_cv, y_train, y_cv, test_data_added_feature, sample_submission_data)
     random_forest_regressor_model(X_train, X_cv, y_train, y_cv, test_data_added_feature, sample_submission_data)
+    XGB_regressor_model(X_train, X_cv, y_train, y_cv, test_data_added_feature, sample_submission_data)
+    svm_regression_model(X_train, X_cv, y_train, y_cv, test_data_added_feature, sample_submission_data)
+    
 
     print("--- %s seconds ---" % (time.time() - start_time))
     print(f"Toatl minutes {(time.time() - start_time)/60}")
